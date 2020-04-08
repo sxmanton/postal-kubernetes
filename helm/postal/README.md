@@ -116,4 +116,4 @@ Parameter | Description | Default
 `postal.smtp.certManager.ingressClass` | ingress class to use for HTTP01 challenge | `nginx`
 `postal.smtp.certManager.issuerName` | name of the cert-manager issuer; this is a required value | ``
 `postal.smtp.certManager.issuerKind` | kind of the cert-manager issuer; this is a required value | ``
-`postal.smtp.ingress.existingTlsSecret` | name of an existing TLS secret to use for the SMTP server (if cert-manager is not used); must be in the same namespace | ``
+`postal.smtp.existingTlsSecret` | name of an existing TLS secret to use for the SMTP server (if cert-manager is not used); must be in the same namespace | ``
