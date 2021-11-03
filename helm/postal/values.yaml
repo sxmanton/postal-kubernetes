@@ -36,7 +36,7 @@ postal:
     ingress:
       ## Hostname for Postal's web component
       ##
-      # hostname: 
+      hostname: postal.schwendt.com
 
       ## Enable ingress
       ##
@@ -48,7 +48,7 @@ postal:
       
       ## Enable TLS for the ingress
       ##
-      tlsEnabled: true
+      tlsEnabled: false
 
       ## Configuration for cert-manager.
       ## ref: https://github.com/jetstack/cert-manager
@@ -57,7 +57,7 @@ postal:
 
         ## Enable management of the web certificate with cert-manager
         ##
-        enabled: true
+        enabled: false
 
         ## Arbitrary labels to add to the certificate
         ##
@@ -82,7 +82,7 @@ postal:
   smtp:
     ## Hostname for Postal's SMTP server
     ##
-    # hostname: 
+    hostname: postal.schwendt.com
 
     ## What kind of service the SMTP server is exposed as
     ##
@@ -95,7 +95,7 @@ postal:
 
       ## Enable management of the SMTP certificate with cert-manager
       ##
-      enabled: true
+      enabled: false
 
       ## Arbitrary labels to add to the certificate
       ##
