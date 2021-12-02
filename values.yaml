@@ -87,7 +87,7 @@ postal:
 
     ## What kind of service the SMTP server is exposed as
     ##
-    serviceType: LoadBalancer
+    serviceType: ClusterIP
 
     ## Configuration for cert-manager.
     ## ref: https://github.com/jetstack/cert-manager
@@ -223,26 +223,19 @@ rabbitmq: &rabbitmq
   ## Override the name of the rabbitmq dependency
   ##
   # nameOverride:
-  definitions:
-    vhosts: |-
-      {
-        "name": "/postal"
-      }
-    permissions: |-
-      {
-        "user": "postal",
-        "vhost": "/postal",
-        "configure": ".*",
-        "write": ".*",
-        "read": ".*"
-      }
-  replicaCount: 1
-  rabbitmqUsername: postal
-  ## rabbitmq password for the postal user.
-  ##
-  rabbitmqPassword: zKJJ&CtT+PLe6FPn%wuL336&rKD@@k6b
-  ## rabbitmq password for management operations.
-  ##
-  managementPassword: HCcpL%RyPw6L8byYF6Xdd36BE@gxYffE
 
-rabbitmq-ha: *rabbitmq
+  replicaCount: 1
+  
+  auth:
+    ## rabbitmq username for the rabbitmq user.
+    ## anything but "postal"
+    username: postal
+    ## rabbitmq password for the user.
+    ##
+    password: FDe43f%FFDdee4#$
+  
+  extraConfiguration: |-
+    default_vhost = /postal
+    default_permissions.configure = .*
+    default_permissions.read = .*
+    default_permissions.write = .*
