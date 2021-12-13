@@ -13,12 +13,12 @@ postal:
   config: 
     dns:
       mx_records:
-        - mx.getmailthing.space
-      smtp_server_hostname: getmailthing.space
-      spf_include: spf.getmailthing.space
-      return_path: rp.getmailthing.space
-      route_domain: routes.getmailthing.space
-      track_domain: track.getmailthing.space
+        - mx.postal.example.com
+      smtp_server_hostname: postal.example.com
+      spf_include: spf.postal.example.com
+      return_path: rp.postal.example.com
+      route_domain: routes.postal.example.com
+      track_domain: track.postal.example.com
       dkim_identifier: postal
       domain_verify_prefix: postal-verification
 
@@ -48,7 +48,7 @@ postal:
     ingress:
       ## Hostname for Postal's web component
       ##
-      hostname: getmailthing.space
+      hostname: postal.example.com
 
       ## Enable ingress
       ##
@@ -94,7 +94,7 @@ postal:
   smtp:
     ## Hostname for Postal's SMTP server
     ##
-    hostname: getmailthing.space
+    hostname: postal.example.com
 
     ## What kind of service the SMTP server is exposed as
     ##

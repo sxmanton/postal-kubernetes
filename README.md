@@ -87,27 +87,10 @@ The command removes all the Kubernetes components associated with the chart and 
 
 ## Configuration - MariaDB and RabbitMQ
 
-This chart pulls in [stable/mariadb](https://github.com/helm/charts/blob/master/stable/mariadb) and
-[stable/rabbitmq-ha](https://github.com/helm/charts/tree/master/stable/rabbitmq-ha) as dependencies.
+This chart pulls in [mariadb](https://github.com/bitnami/charts/tree/master/bitnami/mariadb) and
+[rabbitmq]https://github.com/bitnami/charts/tree/master/bitnami/rabbitmq) as dependencies.
 
 Please refer to the respective documentation for configuration parameters of those components.
-
-### Note about configuring RabbitMQ
-
-If you want to override any of RabbitMQ's configuration parameters, make sure your `values.yaml`
-contains a YAML node `rabbitmq` with an anchor `&rabbitmq` that is referenced in a `rabbitmq-ha`
-node.
-
-We do this, because referencing values of sub-charts with a dash in the name (i.e. `rabbitmq-ha`)
-can be difficult and dashes in chart names are discouraged by helm ([helm/#4379](https://github.com/helm/helm/pull/4379)).
-
-Example:
-
-```yaml
-rabbitmq: &rabbitmq
-  replicaCount: 3
-rabbitmq-ha: *rabbitmq
-```
 
 ## Configuration
 
