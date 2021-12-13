@@ -5,15 +5,25 @@
 postal:
   ## Override the name of the Chart.
   ##
-  # nameOverride: Orrick Postal Test
+  # nameOverride: Postal Test
 
   ## A postal configuration yaml to apply on top of postal's default configuration
   ##
-  # config: {}
+  config:
+    dns:
+      mx_records:
+        - mx.postal.example.com
+      smtp_server_hostname: postal.example.com
+      spf_include: spf.postal.example.com
+      return_path: rp.postal.example.com
+      route_domain: routes.postal.example.com
+      track_domain: track.postal.example.com
+      dkim_identifier: postal
+      domain_verify_prefix: postal-verification
 
   ## Postal image.
   ##
-  image: linkyard/postal
+  image: descifle/postal-revamp
 
   ## Postal image version.
   ## ref: https://hub.docker.com/r/linkyard/postal/tags/
