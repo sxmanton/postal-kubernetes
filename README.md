@@ -48,7 +48,7 @@ Install cert-manager
 kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.6.1/cert-manager.yaml
 ```
 
-Install my included issuer or create your own https://cert-manager.io/docs/concepts/issuer/
+Install our included issuer or create your own https://cert-manager.io/docs/concepts/issuer/
 
 ```console
 kubectl apply -f issuer.yaml
@@ -70,7 +70,7 @@ and install the chart:
 helm install my-release .
 ```
 
-The command deploys postal on the Kubernetes cluster in the default confiugraiotn. The [configuration](#confguration)
+The command deploys postal on the Kubernetes cluster in the default configuration. The [configuration](#configuration)
 section lists parameters that can be configured during installation.
 
 > **Tip**: List all releases using `helm list`
