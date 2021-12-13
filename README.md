@@ -1,6 +1,6 @@
 # postal
 
-A helm-chart to deploy [Postal](https://postal.atech.media/) on kubernetes.
+A helm-chart to deploy [Postal](https://github.com/postalserver/postal) on kubernetes.
 
 ## Introduction
 
@@ -19,16 +19,55 @@ This chart bootstraps a deployment of Postal, MariaDB and RabbitMQ on a
 
 ## Installing the Chart
 
-To install the chart with the release name `my-release`, add the linkyard helm charts repository:
+To install the chart with the release name `my-release`, add the helm charts repository:
 
 ```console
-helm repo add linkyard http://charts.linkyard.ch
+clone this repository
 ```
+
+Setup an ingress-controller
+
+```console
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+```
+
+```console
+helm install my-ingress ingress-nginx/ingress-nginx `
+     --namespace ingress `
+     --create-namespace `
+     --set controller.replicaCount=2 `
+     --set controller.nodeSelector."beta\.kubernetes\.io/os"=linux `
+     --set defaultBackend.nodeSelector."beta\.kubernetes\.io/os"=linux
+```
+
+Update your domain info and dns using the IP from ingress controller or what you choose to use
+
+Install cert-manager
+
+```console
+kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.6.1/cert-manager.yaml
+```
+
+Install my included issuer or create your own https://cert-manager.io/docs/concepts/issuer/
+
+```console
+kubectl apply -f issuer.yaml
+```
+
+Override ingress-controller values to add smtp port
+ 
+```console
+helm upgrade --install -n ingress ingress-controller ingress-nginx/ingress-nginx --values nginxvalues.yaml --wait
+```
+
+Change values in values.yaml to match your domain/dns/installation settings and change default passwords
+
+Change default passwords
 
 and install the chart:
 
 ```console
-helm install --name my-release linkyard/postal
+helm install my-release .
 ```
 
 The command deploys postal on the Kubernetes cluster in the default confiugraiotn. The [configuration](#confguration)
@@ -80,8 +119,8 @@ Parameter | Description | Default
 `mariadb.replication.enabled` | Enable MariaDB replication | `false`
 `mariadb.slave.replicas` | Number of MariaDB slave replicas | `0`
 `mariadb.metrics.enabled` | Enable prometheus metrics | `true`
-`rabbitmq.definitions.vhosts` | RabbitMQ vhosts definitions. Our default adds one for Postal. | see [values.yaml](values.yaml)
-`rabbitmq.definitions.permissions` | RabbitMQ vhosts permissions. Our default adds permission to the `/postal` vhost for the `postal` user. | see [values.yaml](values.yaml)
+`rabbitmq.extraConfiguration.default_vhost` | RabbitMQ vhosts definitions. Our default adds one for Postal. | see [values.yaml](values.yaml)
+`rabbitmq.default_permissions` | RabbitMQ vhosts permissions. Our default adds permission to the `/postal` vhost for the `postal` user. | see [values.yaml](values.yaml)
 `rabbitmq.replicaCount` | Number of RabbitMQ replicas. | `1`
 `rabbitmq.rabbitmqUsername` | Username for RabbitMQ. | `postal`
 `rabbitmq.rabbitmqPassword` | Password for RabbitMQ. Change this from the default! | see [values.yaml](values.yaml)
@@ -94,7 +133,7 @@ Parameter | Description | Default
 `postal.nameOverride` | override the name of the chart | ``
 `postal.config` | A postal configuration yaml to apply on top of postal's default configuration. See [Postal's default configuration](https://github.com/atech/postal/blob/master/config/postal.defaults.yml) for available options. | `{}`
 `postal.image` | postal container image repository | `linkyard/postal`
-`postal.imageTag` | postal container image tag | `1.0.0`
+`postal.imageTag` | postal container image tag | `latest`
 `postal.imagePullPolicy` | postal container image pull policy | `Always`
 `postal.resources` | CPU/Memory resource requests/limits  | `{}`
 `postal.signingKey` | RSA private key in PEM format used for DKIM signing. Change this from the default! | see [values.yaml](values.yaml)
@@ -111,7 +150,7 @@ Parameter | Description | Default
 `postal.web.ingress.certManager.issuerKind` | kind of the cert-manager issuer; this is a required value | ``
 `postal.web.ingress.existingTlsSecret` | name of an existing TLS secret to use for the ingress (if cert-manager is not used); must be in the same namespace | ``
 `postal.smtp.hostname` | public hostname of postal's SMTP server; this is a required value | ``
-`postal.smtp.serviceType` | what kind of service the SMTP server is exposed as | `LoadBalancer`
+`postal.smtp.serviceType` | what kind of service the SMTP server is exposed as | `ClusterIP`
 `postal.smtp.certManager.enabled` | enable management of the TLS secret with [cert-manager](https://github.com/jetstack/cert-manager) | `true`
 `postal.smtp.certManager.ingressClass` | ingress class to use for HTTP01 challenge | `nginx`
 `postal.smtp.certManager.issuerName` | name of the cert-manager issuer; this is a required value | ``
