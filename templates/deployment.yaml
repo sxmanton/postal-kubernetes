@@ -42,7 +42,7 @@ spec:
         - name: RABBITMQ_HOST
           value: {{ template "postal.rabbitmq.fullname" . }}
         - name: RABBITMQ_USER
-          value: {{ .Values.rabbitmq.rabbitmqUsername }}
+          value: {{ .Values.rabbitmq.auth.username }}
         - name: RABBITMQ_PASSWORD
           valueFrom:
             secretKeyRef:

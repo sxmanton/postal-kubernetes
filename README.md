@@ -115,16 +115,16 @@ We set the following default configuration parameters for MariaDB and RabbitMQ:
 
 Parameter | Description | Default
 --- | --- | ---
-`mariadb.rootUser.password` | Password for the MariaDB root user. Change this from the default! | see [values.yaml](values.yaml)
+`mariadb.auth.rootPassword` | Password for the MariaDB root user. Change this from the default! | see [values.yaml](values.yaml)
 `mariadb.replication.enabled` | Enable MariaDB replication | `false`
 `mariadb.slave.replicas` | Number of MariaDB slave replicas | `0`
 `mariadb.metrics.enabled` | Enable prometheus metrics | `true`
 `rabbitmq.extraConfiguration.default_vhost` | RabbitMQ vhosts definitions. Our default adds one for Postal. | see [values.yaml](values.yaml)
 `rabbitmq.default_permissions` | RabbitMQ vhosts permissions. Our default adds permission to the `/postal` vhost for the `postal` user. | see [values.yaml](values.yaml)
 `rabbitmq.replicaCount` | Number of RabbitMQ replicas. | `1`
-`rabbitmq.rabbitmqUsername` | Username for RabbitMQ. | `postal`
-`rabbitmq.rabbitmqPassword` | Password for RabbitMQ. Change this from the default! | see [values.yaml](values.yaml)
-`rabbitmq.managementPassword` | Password for RabbitMQ management operations. Change this from the default! | see [values.yaml](values.yaml)
+`rabbitmq.auth.username` | Username for RabbitMQ. | `postal`
+`rabbitmq.auth.password` | Password for RabbitMQ. Change this from the default! | see [values.yaml](values.yaml)
+`rabbitmq.auth.password` | Password for RabbitMQ management operations. Change this from the default! | see [values.yaml](values.yaml)
 
 The following table lists the configurable parameters of the postal chart and their default values.
 

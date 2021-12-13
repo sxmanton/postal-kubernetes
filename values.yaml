@@ -5,19 +5,20 @@
 postal:
   ## Override the name of the Chart.
   ##
-  # nameOverride: Postal Test
+  # nameOverride: Orrick Postal Test
 
   ## A postal configuration yaml to apply on top of postal's default configuration
+  # needed for setting up mx records etc.
   ##
-  config:
+  config: 
     dns:
       mx_records:
-        - mx.postal.example.com
-      smtp_server_hostname: postal.example.com
-      spf_include: spf.postal.example.com
-      return_path: rp.postal.example.com
-      route_domain: routes.postal.example.com
-      track_domain: track.postal.example.com
+        - mx.getmailthing.space
+      smtp_server_hostname: getmailthing.space
+      spf_include: spf.getmailthing.space
+      return_path: rp.getmailthing.space
+      route_domain: routes.getmailthing.space
+      track_domain: track.getmailthing.space
       dkim_identifier: postal
       domain_verify_prefix: postal-verification
 
@@ -47,7 +48,7 @@ postal:
     ingress:
       ## Hostname for Postal's web component
       ##
-      hostname: postal.schwendt.com
+      hostname: getmailthing.space
 
       ## Enable ingress
       ##
@@ -59,7 +60,7 @@ postal:
       
       ## Enable TLS for the ingress
       ##
-      tlsEnabled: false
+      tlsEnabled: true
 
       ## Configuration for cert-manager.
       ## ref: https://github.com/jetstack/cert-manager
@@ -68,7 +69,7 @@ postal:
 
         ## Enable management of the web certificate with cert-manager
         ##
-        enabled: false
+        enabled: true
 
         ## Arbitrary labels to add to the certificate
         ##
@@ -77,11 +78,11 @@ postal:
 
         ## Name of the issuer
         ##
-        # issuerName:
+        issuerName: letsencrypt
 
         ## Kind of the issuer
         ##
-        # issuerKind:
+        issuerKind: ClusterIssuer
 
       ## If cert-manager is not in use, name of an existing TLS
       ## secret to use for the ingress. Must be in the same namespace.
@@ -93,7 +94,7 @@ postal:
   smtp:
     ## Hostname for Postal's SMTP server
     ##
-    hostname: postal.schwendt.com
+    hostname: getmailthing.space
 
     ## What kind of service the SMTP server is exposed as
     ##
@@ -106,7 +107,7 @@ postal:
 
       ## Enable management of the SMTP certificate with cert-manager
       ##
-      enabled: false
+      enabled: true
 
       ## Arbitrary labels to add to the certificate
       ##
@@ -115,11 +116,11 @@ postal:
 
       ## Name of the issuer
       ##
-      # issuerName:
+      issuerName: letsencrypt
 
       ## Kind of the issuer
       ##
-      # issuerKind:
+      issuerKind: ClusterIssuer
 
     ## If cert-manager is not in use, name of an existing TLS
     ## secret to use for the SMTP server. Must be in the same namespace.
@@ -159,7 +160,6 @@ postal:
     w6fEFjK5DLDT0xoAhAU+2DxV6qfhqN6iIhG9Ct02lTqNeY6f4jcGp9zhK7Z0Q3p+
     vwugwQfd8awjqId0J2+ozEs=
     -----END PRIVATE KEY-----
-
   ## The secret key for rails.
   ##  
   railsSecretKey: aVSXuhVaXpbVdUas3XDEh6PSRewcEVqkN35mfWThXsqtjTxW8TuAU45rBaJxeBznQqa5BvD4dXtyDPvCYZaU9k3cR2xyZFnQCfQ8qVkVXaxK9LQWNkx3J2WvgwNfbP6GPK3L7JZR7yBRsrmE5avy3e5wLWJv35ZhAX5T2fxHfad6jZdDH9YQDCkCWVFxFYDcSgL6FbnmCGyehJb4puAhdUaEvBnnPe3dzDbJshZUxCpFFxquZbEP2NgzPg7terGjKDPCfdUZBEbMyLWTCm3eKWTgp8rkMK4PWCYAV3LFYtgEHf8e6YqAg6PfgvgTXCCg4UQwr5fp8NDtY3kPyYHNNtvNkUC7CDqewCakkBv2CpsRFVuLzH8aaUE6cgX3bgBvaGtgmKUHLyG3D6aCcAREAPm38fYXyerzfQtECDdQM8Duk2g8PwVMwfBuN83YuXsyy9gKEzM2HZCbAzPqKmufjcjHynRGtR5E3sMuC9Rs9aNbdMWj8sdqgupv4dEJXh
@@ -197,22 +197,24 @@ postal:
     vOe3LccGhMWuTm3Q0p4wjl5BmZk/VfIJ2Ri7bNDW3jF/oTsh4ecMDtXjafBRo1u9
     NkSCMjoXo/d/HBlllJpiFFl6
     -----END PRIVATE KEY-----
-
   ## Password for the SMTP server.
   ##
-  smtpPassword: am7L*C39#AG=kBfmn4vR38gF2+jxJzJr
+  smtpPassword: assdSAD23sass
 
+## SUB-CHART VALUES
+## Change these or update as neccessary when sub-charts are updated
+## These are the login credentials and settings for the sub-charts
 ## Configuration values for the mariadb dependency.
-## ref: https://github.com/kubernetes/charts/blob/master/stable/mariadb/README.md
+## ref: https://github.com/bitnami/charts/blob/master/bitnami/mariadb/README.md
 ##
 mariadb:
   ## Override the name of the mariadb dependency
   ##
   # nameOverride:
-  rootUser:
+  auth:
     ## mariadb password for the root user.
-    ##
-    password: X4X^%gT+t--DZ@F+%2c3yyfUQ-b6UjMZ
+    ## random 10 or above character alphanumeric string
+    rootPassword: DASFS$DSdsadsAWS23
   replication:
     enabled: false
   slave:
@@ -220,16 +222,10 @@ mariadb:
   metrics:
     enabled: true
 
-## Configuration values for the rabbitmq-ha dependency.
-## ref: https://github.com/kubernetes/charts/blob/master/stable/rabbitmq-ha/README.md
+## Configuration values for the rabbitmq dependency.
+## ref: https://github.com/bitnami/charts/blob/master/bitnami/rabbitmq/README.md
 ##
-## NOTE: If you override any of those values, make sure your values.yaml
-## include the following:
-## rabbitmq: &rabbitmq
-##   myKey: myValue
-## rabbitmq-ha: *rabbitmq
-## https://github.com/helm/helm/pull/4379
-rabbitmq: &rabbitmq
+rabbitmq:
   ## Override the name of the rabbitmq dependency
   ##
   # nameOverride:
@@ -242,7 +238,7 @@ rabbitmq: &rabbitmq
     username: postal
     ## rabbitmq password for the user.
     ##
-    password: FDe43f%FFDdee4#$
+    password: ASDSAC3sdaS33qwaS
   
   extraConfiguration: |-
     default_vhost = /postal
